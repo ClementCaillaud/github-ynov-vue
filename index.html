@@ -35,6 +35,10 @@
           <button class="btn btn-primary" v-on:click="chargerRepos">Se connecter</button>
       </div>
 
+      <div class="alert alert-danger" id="alert-authentification" role="alert" style="display:none;">
+        Erreur lors de la connexion à GitHub, vérifiez vos identifiants
+      </div>
+
       <div class="row justify-content-center">
         <table class="table table-responsive text-center">
           <tr>
@@ -46,9 +50,9 @@
           </tr>
           <tr>
             <td>{{listeReposFiltres.length}}</td>
-            <td><input type="text" class="form-control" id="filtre-nom-projet" placeholder="Nom du projet" /></td>
-            <td><input type="text" class="datepicker" id="filtre-date-debut" placeholder="Date début"></td>
-            <td><input type="text" class="datepicker" id="filtre-date-fin" placeholder="Date fin"></td>
+            <td><input type="text" class="form-control" id="filtre-nom-projet" v-on:change="afficherReposFiltres()" placeholder="Nom du projet" /></td>
+            <td><input type="text" class="datepicker" id="filtre-date-debut" v-on:change="afficherReposFiltres()" placeholder="Date début"></td>
+            <td><input type="text" class="datepicker" id="filtre-date-fin" v-on:change="afficherReposFiltres()" placeholder="Date fin"></td>
             <td>
               <select class="custom-select" id="filtre-utilisateur" v-on:change="afficherReposFiltres()">
                 <option selected>Tous</option>

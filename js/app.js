@@ -53,6 +53,11 @@ var app = new Vue(
               ));
             });
             app.listeReposFiltres = app.listeRepos;
+            $("#alert-authentification").hide();
+          },
+          function(erreur)
+          {
+            $("#alert-authentification").show();
           }
         );
       });
@@ -60,6 +65,7 @@ var app = new Vue(
 
     afficherReposFiltres : function()
     {
+      var filtreNomProjet = $("#filtre-nom-projet").val();
       var filtreUtilisateur = $("#filtre-utilisateur").val();
 
       app.listeReposFiltres = [];
@@ -67,7 +73,10 @@ var app = new Vue(
       {
         if(repo.utilisateur == filtreUtilisateur || filtreUtilisateur == "Tous")
         {
-          app.listeReposFiltres.push(repo);
+          if(repo.nom == filtreNomProjet || filtreNomProjet == "")
+          {
+            app.listeReposFiltres.push(repo);
+          }
         }
       });
     }

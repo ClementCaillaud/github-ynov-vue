@@ -19,5 +19,12 @@ function Repo(utilisateur, url, nom, url_commits)
         }
       );
     }
-  }
+  };
+
+  this.getDate = function(commit)
+  {
+    var date = commit.commit.author.date;
+    var dateFormatee = date.slice(0, 10);
+    return dateFormatee;
+  };
 }

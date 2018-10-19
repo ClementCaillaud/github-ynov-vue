@@ -6,7 +6,6 @@ var app = new Vue(
     loginGithub: "",
     mdpGithub: "",
     listeRepos: [],
-    listeReposFiltres: [],
     listeUtilisateurs: [
       "Killy85",
       "Nair0fl",
@@ -32,12 +31,17 @@ var app = new Vue(
       "benjaminbra",
       "mael61",
       "alixnzt"
-    ]
+    ],
+    filtreNomProjet: "",
+    filtreUtilisateur: "Tous",
+    filtreDateDebut: "",
+    filtreDateFin: ""
   },
   methods:
   {
     chargerRepos : function()
     {
+      app.listeRepos = [];
       $.each(app.listeUtilisateurs, function(id, utilisateur)
       {
         callAPI.getRepos(utilisateur).then(
@@ -52,7 +56,6 @@ var app = new Vue(
                 repo.commits_url.replace("{/sha}", "")
               ));
             });
-            app.listeReposFiltres = app.listeRepos;
             $("#alert-authentification").hide();
           },
           function(erreur)
@@ -62,23 +65,47 @@ var app = new Vue(
         );
       });
     },
-
-    afficherReposFiltres : function()
+  },
+  computed:
+  {
+    listeReposFiltres: function()
     {
-      var filtreNomProjet = $("#filtre-nom-projet").val();
-      var filtreUtilisateur = $("#filtre-utilisateur").val();
+      var reposFiltres = [];
 
-      app.listeReposFiltres = [];
-      $.each(app.listeRepos, function(id, repo)
+      $.each(this.listeRepos, function(id, repo)
       {
-        if(repo.utilisateur == filtreUtilisateur || filtreUtilisateur == "Tous")
+        if(repo.utilisateur == app.filtreUtilisateur || app.filtreUtilisateur == 'Tous')
         {
-          if(repo.nom == filtreNomProjet || filtreNomProjet == "")
+          if(repo.nom == app.filtreNomProjet || app.filtreNomProjet == '')
           {
-            app.listeReposFiltres.push(repo);
+            reposFiltres.push(repo);
           }
         }
       });
+      return reposFiltres;
+    },
+
+    listeCommitsFiltres: function()
+    {
+      var commitsFiltres = [];
+      var dateDebut = (app.filtreDateDebut != "")? new Date(app.filtreDateDebut) : "";
+      var dateFin = (app.filtreDateFin != "")? new Date(app.filtreDateFin) : "";
+
+      $.each(this.listeRepos, function(idR, repo)
+      {
+        $.each(repo.commits, function(idC, commit)
+        {
+          var dateCommit = new Date(repo.getDate(commit));
+          if(dateCommit >= dateDebut || dateDebut == "")
+          {
+            if(dateCommit <= dateFin || dateFin == "")
+            {
+              commitsFiltres.push(commit);
+            }
+          }
+        });
+      });
+      return commitsFiltres;
     }
   }
 });

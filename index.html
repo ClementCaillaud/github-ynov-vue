@@ -35,6 +35,10 @@
           <button class="btn btn-primary" v-on:click="chargerRepos">Se connecter</button>
       </div>
 
+      <div class="alert alert-danger" id="alert-authentification" role="alert" style="display:none;">
+        Erreur lors de la connexion à GitHub, vérifiez vos identifiants
+      </div>
+
       <div class="row justify-content-center">
         <table class="table table-responsive text-center">
           <tr>
@@ -46,11 +50,11 @@
           </tr>
           <tr>
             <td>{{listeReposFiltres.length}}</td>
-            <td><input type="text" class="form-control" id="filtre-nom-projet" placeholder="Nom du projet" /></td>
-            <td><input type="text" class="datepicker" id="filtre-date-debut" placeholder="Date début"></td>
-            <td><input type="text" class="datepicker" id="filtre-date-fin" placeholder="Date fin"></td>
+            <td><input type="text" class="form-control" v-model="filtreNomProjet" placeholder="Nom du projet" /></td>
+            <td><input type="date" class="form-control" v-model="filtreDateDebut" placeholder="Date début"></td>
+            <td><input type="date" class="form-control" v-model="filtreDateFin" placeholder="Date fin"></td>
             <td>
-              <select class="custom-select" id="filtre-utilisateur" v-on:change="afficherReposFiltres()">
+              <select class="custom-select" v-model="filtreUtilisateur">
                 <option selected>Tous</option>
                 <option v-for="utilisateur in listeUtilisateurs">{{utilisateur}}</option>
               </select>
@@ -78,7 +82,7 @@
                 </h5>
               </div>
               <div v-bind:id="'collapse' + id" class="collapse" v-bind:aria-labelledby="'heading' + id" v-bind:data-parent="'#accordion' + id">
-                  <p v-for="commit in repo.commits">
+                  <p v-for="commit in listeCommitsFiltres" v-if="repo.commits.includes(commit)">
                     {{commit.commit.message}}
                   </p>
               </div>

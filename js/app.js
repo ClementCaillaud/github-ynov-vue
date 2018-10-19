@@ -6,6 +6,7 @@ var app = new Vue(
     loginGithub: "",
     mdpGithub: "",
     listeRepos: [],
+    listeReposFiltres: [],
     listeUtilisateurs: [
       "Killy85",
       "Nair0fl",
@@ -39,7 +40,6 @@ var app = new Vue(
     {
       $.each(app.listeUtilisateurs, function(id, utilisateur)
       {
-        console.log(utilisateur);
         callAPI.getRepos(utilisateur).then(
           function(data)
           {
@@ -52,10 +52,24 @@ var app = new Vue(
                 repo.commits_url.replace("{/sha}", "")
               ));
             });
+            app.listeReposFiltres = app.listeRepos;
           }
         );
       });
-      console.log(app.listeRepos);
+    },
+
+    afficherReposFiltres : function()
+    {
+      var filtreUtilisateur = $("#filtre-utilisateur").val();
+
+      app.listeReposFiltres = [];
+      $.each(app.listeRepos, function(id, repo)
+      {
+        if(repo.utilisateur == filtreUtilisateur || filtreUtilisateur == "Tous")
+        {
+          app.listeReposFiltres.push(repo);
+        }
+      });
     }
   }
 });

@@ -83,7 +83,7 @@
               </div>
               <div v-bind:id="'collapse' + id" class="collapse" v-bind:aria-labelledby="'heading' + id" v-bind:data-parent="'#accordion' + id">
                   <p v-for="commit in listeCommitsFiltres" v-if="repo.commits.includes(commit)">
-                    {{commit.commit.message}}
+                    {{commit.commit.author.date}} | {{commit.commit.message}}
                   </p>
               </div>
             </div>

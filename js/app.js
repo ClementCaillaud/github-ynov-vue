@@ -3,8 +3,8 @@ var app = new Vue(
   el: "#app",
   data:
   {
-    loginGithub: "",
-    mdpGithub: "",
+    loginGithub: "ClementCaillaud",
+    mdpGithub: "Dc0B7da525",
     listeRepos: [],
     listeUtilisateurs: [
       "Killy85",
@@ -64,7 +64,7 @@ var app = new Vue(
           }
         );
       });
-    },
+    }
   },
   computed:
   {

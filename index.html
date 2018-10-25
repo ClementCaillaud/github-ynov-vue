@@ -51,26 +51,30 @@
 
       <!-- FILTRES -->
       <div id="div-filtres" class="row justify-content-center mt-4">
-        <table class="table text-center col-md-2 col-lg">
-          <tr><th>Nb projets</th></tr>
+        <table class="table text-center col-md-2 col-lg-1">
+          <tr><th class="bg-primary text-white">Nb</th></tr>
           <tr><td>{{listeReposFiltres.length}}</td></tr>
         </table>
-        <table class="table text-center col-md-5 col-lg">
-          <tr><th>Utilisateurs</th></tr>
+        <table class="table text-center col-md-5 col-lg-2">
+          <tr><th class="bg-primary text-white">Utilisateurs</th></tr>
           <tr><td><select class="selectpicker" multiple data-live-search="true" data-actions-box="true" v-model="filtreUtilisateur">
             <option v-for="utilisateur in listeUtilisateurs">{{utilisateur}}</option>
           </select></td></tr>
         </table>
-        <table class="table text-center col-md-5 col-lg">
-          <tr><th>Projet</th></tr>
+        <table class="table text-center col-md-5 col-lg-2">
+          <tr><th class="bg-primary text-white">Projet</th></tr>
           <tr><td><input type="text" class="form-control" v-model="filtreNomProjet" placeholder="Nom du projet" /></td></tr>
         </table>
-        <table class="table text-center col-md-5 col-lg">
-          <tr><th>Date début</th></tr>
-          <tr><td><input type="date" class="form-control" v-model="filtreDateDebut" placeholder="Date début"></td></tr>
+        <table class="table text-center col-md-4 col-lg">
+          <tr><th class="bg-primary text-white">Date début</th></tr>
+          <tr><td><input type="date" class="form-control" v-model="filtreDateDebut" placeholder="Date début commit"></td></tr>
         </table>
-        <table class="table text-center col-md-5 col-lg">
-          <tr><th>Commits</th></tr>
+        <table class="table text-center col-md-4 col-lg">
+          <tr><th class="bg-primary text-white">Date fin</th></tr>
+          <tr><td><input type="date" class="form-control" v-model="filtreDateFin" placeholder="Date fin commit"></td></tr>
+        </table>
+        <table class="table text-center col-md-4 col-lg">
+          <tr><th class="bg-primary text-white">Commits</th></tr>
           <tr><td>
             <input type="checkbox" id="toggle-input" data-toggle="toggle" data-on="Affichés" data-off="Masqués" data-onstyle="success" data-offstyle="danger">
             <p id="info-toggle" class="text-danger" style="display:none;">Veuillez sélectionner un filtre</p>
@@ -82,12 +86,12 @@
       <!-- CONTENU -->
       <div id="div-contenu" class="row justify-content-center mb-3" v-for="(repo, id) in listeReposFiltres">
         <div class="card">
-          <h5 class="card-header justify-content-between">
-            <span class="mr-5">{{repo.utilisateur}}</span>
-            <a v-bind:href="repo.url">{{repo.url}}</a>
+          <h5 class="card-header justify-content-between bg-secondary">
+            <span class="mr-5 text-white">{{repo.utilisateur}}</span>
+            <a class="text-white" v-bind:href="repo.url">{{repo.url}}</a>
           </h5>
-          <div class="card-body">
-            <h5 class="card-title">{{repo.nom}}</h5>
+          <div class="card-body bg-dark">
+            <h5 class="card-title text-white">{{repo.nom}}</h5>
 
             <div class="accordion" v-bind:id="'accordion' + id">
               <div v-bind:id="'heading' + id">
@@ -98,13 +102,24 @@
                 </h5>
               </div>
               <div v-bind:id="'collapse' + id" class="collapse" v-bind:aria-labelledby="'heading' + id" v-bind:data-parent="'#accordion' + id">
-                <div class="card" v-for="commit in listeCommitsFiltres" v-if="repo.commits.includes(commit)">
-                  <h5 class="card-header">{{commit.commit.author.date}}</h5>
+                <div class="card border-info" v-for="commit in listeCommitsFiltres" v-if="repo.commits.includes(commit)">
                   <div class="card-body">
-                    {{commit.commit.message}}
+                    <div class="row">
+                      <div class="col-md-2">
+                        <p class="card-text">{{repo.getDate(commit)}}</p>
+                      </div>
+                      <div class="col-md-2">
+                        <p class="card-text">{{repo.getHeure(commit)}}</p>
+                      </div>
+                      <div class="col-md-8">
+                        <h5 class="card-title">{{commit.commit.message}}</h5>
+                      </div>
+                    </div>
                   </div>
-                </div>
               </div>
+            </div>
+
+
             </div>
 
           </div>

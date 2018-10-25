@@ -3,8 +3,8 @@ var app = new Vue(
   el: "#app",
   data:
   {
-    loginGithub: "ClementCaillaud",
-    mdpGithub: "Dc0B7da525",
+    loginGithub: "",
+    mdpGithub: "",
     listeRepos: [],
     listeUtilisateurs: [
       "Killy85",

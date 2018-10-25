@@ -27,4 +27,11 @@ function Repo(utilisateur, url, nom, url_commits)
     var dateFormatee = date.slice(0, 10);
     return dateFormatee;
   };
+
+  this.getHeure = function(commit)
+  {
+    var date = commit.commit.author.date;
+    var heureFormatee = date.slice(11, 16);
+    return heureFormatee;
+  }
 }

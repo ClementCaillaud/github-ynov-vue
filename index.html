@@ -1,3 +1,6 @@
+<!-- TODO: Rendre les filtres responsives (pas sous forme de tableau du coup) -->
+<!-- TODO: Pouvoir sélectionner plusieurs utilisateurs -->
+<!-- TODO: Un bouton pour afficher/masquer tous les commits -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -20,16 +23,18 @@
 
   <body>
     <div class="container" id="app">
-      <!-- ENTETE ET FILTRES -->
+      <!-- ENTETE -->
       <div class="row justify-content-center">
-        <h1>Application GitHub Ynov</h1>
+        <h1 class="text-center">Application GitHub Ynov</h1>
       </div>
+      <!-- FIN ENTETE -->
 
-      <div class="row justify-content-center">
-        <div class="col">
+      <!-- CONNEXION -->
+      <div id="div-connexion" class="row justify-content-center">
+        <div class="col-md mb-1">
           <input type="text" class="form-control" v-model="loginGithub" placeholder="Login"/>
         </div>
-        <div class="col">
+        <div class="col-md mb-1">
           <input type="password" class="form-control" v-model="mdpGithub" placeholder="Password"/>
         </div>
           <button class="btn btn-primary" v-on:click="chargerRepos">Se connecter</button>
@@ -38,33 +43,38 @@
       <div class="alert alert-danger" id="alert-authentification" role="alert" style="display:none;">
         Erreur lors de la connexion à GitHub, vérifiez vos identifiants
       </div>
+      <!-- FIN CONNEXION -->
 
-      <div class="row justify-content-center">
-        <table class="table table-responsive text-center">
-          <tr>
-            <th>Nb projets</th>
-            <th>Projet</th>
-            <th>Date début</th>
-            <th>Date fin</th>
-            <th>Utilisateur</th>
-          </tr>
-          <tr>
-            <td>{{listeReposFiltres.length}}</td>
-            <td><input type="text" class="form-control" v-model="filtreNomProjet" placeholder="Nom du projet" /></td>
-            <td><input type="date" class="form-control" v-model="filtreDateDebut" placeholder="Date début"></td>
-            <td><input type="date" class="form-control" v-model="filtreDateFin" placeholder="Date fin"></td>
-            <td>
-              <select class="custom-select" v-model="filtreUtilisateur">
-                <option selected>Tous</option>
-                <option v-for="utilisateur in listeUtilisateurs">{{utilisateur}}</option>
-              </select>
-            </td>
-          </tr>
+      <!-- FILTRES -->
+      <div id="div-filtres" class="row justify-content-center mt-4">
+        <table class="table text-center col-md-2 col-lg">
+          <tr><th>Nb projets</th></tr>
+          <tr><td>{{listeReposFiltres.length}}</td></tr>
+        </table>
+        <table class="table text-center col-md-5 col-lg">
+          <tr><th>Utilisateurs</th></tr>
+          <tr><td><select class="custom-select" v-model="filtreUtilisateur">
+            <option selected>Tous</option>
+            <option v-for="utilisateur in listeUtilisateurs">{{utilisateur}}</option>
+          </select></td></tr>
+        </table>
+        <table class="table text-center col-md-5 col-lg">
+          <tr><th>Projet</th></tr>
+          <tr><td><input type="text" class="form-control" v-model="filtreNomProjet" placeholder="Nom du projet" /></td></tr>
+        </table>
+        <table class="table text-center col-md-5 col-lg">
+          <tr><th>Date début</th></tr>
+          <tr><td><input type="date" class="form-control" v-model="filtreDateDebut" placeholder="Date début"></td></tr>
+        </table>
+        <table class="table text-center col-md-5 col-lg">
+          <tr><th>Date fin</th></tr>
+          <tr><td><input type="date" class="form-control" v-model="filtreDateFin" placeholder="Date fin"></td></tr>
         </table>
       </div>
+      <!-- FIN FILTRES -->
 
       <!-- CONTENU -->
-      <div class="row justify-content-center mb-3" v-for="(repo, id) in listeReposFiltres">
+      <div id="div-contenu" class="row justify-content-center mb-3" v-for="(repo, id) in listeReposFiltres">
         <div class="card">
           <h5 class="card-header justify-content-between">
             <span class="mr-5">{{repo.utilisateur}}</span>
@@ -82,17 +92,20 @@
                 </h5>
               </div>
               <div v-bind:id="'collapse' + id" class="collapse" v-bind:aria-labelledby="'heading' + id" v-bind:data-parent="'#accordion' + id">
-                  <p v-for="commit in listeCommitsFiltres" v-if="repo.commits.includes(commit)">
-                    {{commit.commit.author.date}} | {{commit.commit.message}}
-                  </p>
+                <div class="card" v-for="commit in listeCommitsFiltres" v-if="repo.commits.includes(commit)">
+                  <h5 class="card-header">{{commit.commit.author.date}}</h5>
+                  <div class="card-body">
+                    {{commit.commit.message}}
+                  </div>
+                </div>
               </div>
             </div>
 
           </div>
         </div>
       </div>
+      <!-- FIN CONTENU -->
     </div>
     <script src="js/app.js"></script>
-    <script src="js/datepicker.js"></script>
   </body>
 </html>

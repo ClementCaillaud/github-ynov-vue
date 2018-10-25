@@ -1,3 +1,4 @@
+// TODO: btoa() ne marche pas avec certains caractères ex : '
 var callAPI =
 {
   getRepos : function(utilisateur, callback)

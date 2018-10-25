@@ -89,14 +89,29 @@ var app = new Vue(
     listeCommitsFiltres: function()
     {
       var commitsFiltres = [];
-      var dateDebut = (app.filtreDateDebut != "")? new Date(app.filtreDateDebut) : "";
-      var dateFin = (app.filtreDateFin != "")? new Date(app.filtreDateFin) : "";
+
+      var dateDebut = (app.filtreDateDebut != "")? new Date(
+        new Date(app.filtreDateDebut).getFullYear(),
+        new Date(app.filtreDateDebut).getMonth(),
+        new Date(app.filtreDateDebut).getDate()) : "";
+
+      var dateFin = (app.filtreDateFin != "")? new Date(
+        new Date(app.filtreDateFin).getFullYear(),
+        new Date(app.filtreDateFin).getMonth(),
+        new Date(app.filtreDateFin).getDate()) : "";
 
       $.each(this.listeRepos, function(idR, repo)
       {
         $.each(repo.commits, function(idC, commit)
         {
-          var dateCommit = new Date(repo.getDate(commit));
+          var dateDecomposee =
+          {
+            annee: new Date(commit.commit.author.date).getFullYear(),
+            mois: new Date(commit.commit.author.date).getMonth(),
+            jour: new Date(commit.commit.author.date).getDate()
+          }
+          var dateCommit = new Date(dateDecomposee.annee, dateDecomposee.mois, dateDecomposee.jour);
+
           if(dateCommit >= dateDebut || dateDebut == "")
           {
             if(dateCommit <= dateFin || dateFin == "")

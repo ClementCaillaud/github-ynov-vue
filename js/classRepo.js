@@ -23,15 +23,15 @@ function Repo(utilisateur, url, nom, url_commits)
 
   this.getDate = function(commit)
   {
-    var date = commit.commit.author.date;
-    var dateFormatee = date.slice(0, 10);
+    var date = new Date(commit.commit.author.date);
+    var dateFormatee = date.toLocaleDateString("fr-FR");
     return dateFormatee;
   };
 
   this.getHeure = function(commit)
   {
-    var date = commit.commit.author.date;
-    var heureFormatee = date.slice(11, 16);
+    var date = new Date(commit.commit.author.date);
+    var heureFormatee = date.toLocaleTimeString("fr-FR").slice(0, 5);
     return heureFormatee;
   }
 }

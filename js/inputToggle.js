@@ -1,8 +1,9 @@
 $('#toggle-input').change(function()
 {
   var valeur = $(this).prop('checked')
-
-  if(app.filtreNomProjet != '' || app.filtreUtilisateur != 'Tous')
+  console.log(app.filtreUtilisateur.length);
+  console.log(app.listeUtilisateurs.length);
+  if(app.filtreNomProjet != '' || app.filtreUtilisateur.length != app.listeUtilisateurs.length)
   {
     $("#info-toggle").hide();
     if(valeur)

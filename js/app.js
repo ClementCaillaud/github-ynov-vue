@@ -33,7 +33,7 @@ var app = new Vue(
       "alixnzt"
     ],
     filtreNomProjet: "",
-    filtreUtilisateur: "Tous",
+    filtreUtilisateur: [],
     filtreDateDebut: "",
     filtreDateFin: ""
   },
@@ -41,6 +41,7 @@ var app = new Vue(
   {
     chargerRepos : function()
     {
+      $('.selectpicker').selectpicker('selectAll');
       app.listeRepos = [];
       $.each(app.listeUtilisateurs, function(id, utilisateur)
       {
@@ -74,7 +75,7 @@ var app = new Vue(
 
       $.each(this.listeRepos, function(id, repo)
       {
-        if(repo.utilisateur == app.filtreUtilisateur || app.filtreUtilisateur == 'Tous')
+        if(app.filtreUtilisateur.includes(repo.utilisateur) || app.filtreUtilisateur.length == app.listeUtilisateurs.length)
         {
           if(repo.nom == app.filtreNomProjet || app.filtreNomProjet == '')
           {

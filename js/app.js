@@ -30,7 +30,10 @@ var app = new Vue(
       "rudy8530",
       "benjaminbra",
       "mael61",
-      "alixnzt"
+      "alixnzt",
+      "mcourant",
+      "msaintmartin",
+      "maximerolland"
     ],
     filtreNomProjet: "",
     filtreUtilisateur: [],
